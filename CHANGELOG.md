@@ -10,11 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [LIBRARY] Links using the `javascript:`, `vbscript:` or `data:` schemes get an empty `href`, including obfuscated forms (character references, embedded whitespace). Configurable with the new `blockedUriSchemes` option. Ported from borgar/textile-js `next-version`.
 
 ### Added
+- [LIBRARY] Redmine syntax, behind options and the new `textile.presets.redmine`: `autolink` (bare URLs and emails), `quoteLines` (`>` / `>>` blockquotes), `headingIds` (Redmine style anchors) and `toc` (`{{toc}}` / `{{>toc}}`).
 - [LIBRARY] MediaWiki style definition lists (`; term` / `: definition`). Ported from borgar/textile-js `next-version`.
 - [LIBRARY] `idPrefix` option to prefix footnote ids, so several documents can share a page. Ported from `next-version`.
 - [LIBRARY] `useAbbr` option to render `<abbr>` instead of the obsolete `<acronym>`. Ported from `next-version`.
 
 ### Fixed
+- [LIBRARY] `table(class).` / `table{style}.` followed by a single row was not recognized as a table.
+- [LIBRARY] `<notextile>|</notextile>` inside a table cell split the cell.
+- [LIBRARY] The dimension glyph turned `www.x.org` into `www.×.org`.
 - [LIBRARY] An empty named block (`h1.` followed by a blank line) no longer swallows the next block (borgar/textile-js#9).
 
 ### Changed

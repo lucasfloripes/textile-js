@@ -40,6 +40,25 @@ const reLinkFenced = /^\["([^\n]+?)":((?:\[[a-z0-9]*\]|[^\]])+)\]/;
 const reLinkTitle = /\s*\(((?:\([^()]*\)|[^()])+)\)$/;
 const reFootnote = /^\[(\d+)(!?)\]/;
 
+const reAutolink = /^(?:(?:https?|s?ftps?):\/\/[^\s<>"]+|www\.[^\s<>"]+|[\w.+-]+@[a-z\d-]+(?:\.[a-z\d-]+)+)/i;
+
+// links can't nest, so their content is parsed without autolinking
+function withoutAutolink (options) {
+  return options.autolink ? Object.assign({}, options, { autolink: false }) : options;
+}
+
+// drop trailing punctuation that most likely ends the sentence, not the URL
+function trimUrl (url) {
+  let m;
+  while ((m = /[.,;:!?'*_]$|\)$/.exec(url))) {
+    if (m[0] === ')' && (url.match(/\(/g) || []).length >= (url.match(/\)/g) || []).length) {
+      break; // balanced parens are part of the URL
+    }
+    url = url.slice(0, -1);
+  }
+  return url;
+}
+
 function parsePhrase (src, options, charPosToLine, charOffset) {
   src = ribbon(src);
   const list = builder();
@@ -198,7 +217,8 @@ function parsePhrase (src, options, charPosToLine, charOffset) {
             continue;
           }
           else {
-            element = element.concat(parsePhrase(m[1], options, charPosToLine, charOffset + srcPos));
+            const innerOptions = tag === 'a' ? withoutAutolink(options) : options;
+            element = element.concat(parsePhrase(m[1], innerOptions, charPosToLine, charOffset + srcPos));
           }
           list.add(element);
           continue;
@@ -254,7 +274,18 @@ function parsePhrase (src, options, charPosToLine, charOffset) {
         inner = m[2].replace(/^(https?:\/\/|ftps?:\/\/|mailto:)/, '');
       }
       // FIXME : small shift, because parsePhrase is called with an inexact offset
-      list.add([ 'a', pba ].concat(parsePhrase(inner.replace(/^(\.?\s*)/, ''), options, charPosToLine, charOffset + src.getSlot())));
+      list.add([ 'a', pba ].concat(parsePhrase(inner.replace(/^(\.?\s*)/, ''), withoutAutolink(options), charPosToLine, charOffset + src.getSlot())));
+      continue;
+    }
+
+    // bare URLs and email addresses (autolink option)
+    if (options.autolink && boundary && (m = reAutolink.exec(src))) {
+      const text = trimUrl(m[0]);
+      src.advance(text);
+      let href = text;
+      if (/^www\./i.test(text)) { href = 'http://' + text; }
+      else if (!/^[a-z]+:/i.test(text)) { href = 'mailto:' + text; }
+      list.add([ 'a', { href: safeHref(href, options) }, text ]);
       continue;
     }
 

@@ -9,11 +9,20 @@ const merge = require('./merge');
 const jsonmlUtils = require('./jsonml');
 const { parseFlow } = require('./textile/flow');
 const { parseHtml } = require('./html');
+const { applyToc } = require('./textile/toc');
 
 // options
 const defaults = {
   // single-line linebreaks are converted to <br> by default
   breaks: true,
+  // turn bare URLs (http, https, ftp, ftps, sftp, sftps, www.) and email addresses into links
+  autolink: false,
+  // lines starting with ">" become (nested) blockquotes
+  quoteLines: false,
+  // give headings an id derived from their text
+  headingIds: false,
+  // replace a {{toc}} or {{>toc}} paragraph with a table of contents (implies headingIds)
+  toc: false,
   // emit <abbr> instead of the obsolete <acronym> for "ABC(title)"
   useAbbr: false,
   // prefix for footnote ids: a string, true (random) or false (none)
@@ -44,11 +53,21 @@ function getOptions (opt) {
 function textile (txt, opt) {
   opt = getOptions(opt);
   // run the converter
-  return parseFlow(txt, opt, opt.lineOffset).map(value => jsonmlUtils.toHTML(value, opt.renderers)).join('');
+  return applyToc(parseFlow(txt, opt, opt.lineOffset), opt).map(value => jsonmlUtils.toHTML(value, opt.renderers)).join('');
 }
 module.exports = textile;
 
 textile.defaults = defaults;
+
+// option sets for common dialects: textile.convert(src, textile.presets.redmine)
+textile.presets = {
+  redmine: Object.freeze({
+    autolink: true,
+    quoteLines: true,
+    headingIds: true,
+    toc: true
+  })
+};
 
 textile.setOptions = textile.setoptions = function (opt) {
   merge(textile.defaults, opt);
@@ -61,7 +80,7 @@ textile.html_parser = parseHtml;
 textile.tokenize = function (txt, opt) {
   opt = getOptions(opt);
   // parse and return tree
-  return parseFlow(txt, opt, opt.lineOffset);
+  return applyToc(parseFlow(txt, opt, opt.lineOffset), opt);
 };
 textile.jsonml = function (txt, opt) {
   // parse and return tree

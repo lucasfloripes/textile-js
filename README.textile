@@ -34,10 +34,12 @@ bc. textile( textileString [, options] )
 h3. <a name="options" />Options
 
 |*Member*|*Type*|*Default*|*Notes*|
+|autolink|@boolean@|@false@|Turn bare URLs (@http@, @https@, @ftp@, @ftps@, @sftp@, @sftps@, @www.@) and email addresses into links. Trailing punctuation is left out; links, code and preformatted text are never touched.|
 |blockedUriSchemes|@string[]@|@['javascript', 'vbscript', 'data']@|Links (and image links) whose URI uses one of these schemes get an empty @href@. The check also catches character references and whitespace tricks such as @java&#9;script&#58;@. Use @[]@ to allow every scheme. Note that this only covers Textile link syntax: raw HTML in the input is passed through as-is, so untrusted input still needs an HTML sanitizer.|
 |breaks|@boolean@|@true@|Convert single-line linebreaks to @<br>@.|
 |cssClassOriginalLineNumber|@string@|@''@|Add this CSS class name, to each elements of HTML output, mapped to a the line numbers of input text.
 Works only when @showOriginalLineNumber@ option is enabled.|
+|headingIds|@boolean@|@false@|Give each heading an @id@ derived from its text, Redmine style: @h2. Getting started@ gets @id="Getting-started"@, repeated headings get @-2@, @-3@... An explicit id (@h2(#x).@) is kept.|
 |hooks|<pre><code>[
   function(
     jsonml :any[],
@@ -49,6 +51,7 @@ Works only when @showOriginalLineNumber@ option is enabled.|
 The function receives a JsonML node (JsonML sub-tree), and returns it with modifications.|
 |idPrefix|@string@ or @boolean@|@false@|Prefix footnote ids so several documents can share a page: @fn1@ becomes @fn-PREFIX-1@ (and @fnr1@ becomes @fnr-PREFIX-1@). @true@ picks a random prefix per call.|
 |lineOffset|@integer@|@0@|Line number offset of the first char in input text, for @showOriginalLineNumber@ option.|
+|quoteLines|@boolean@|@false@|Lines starting with @>@ become a blockquote; @>>@ nests one level deeper. The quoted text is parsed as regular Textile.|
 |renderers|<pre><code>[
     content: function(
         tag: string,
@@ -60,7 +63,17 @@ The function receives a JsonML node (JsonML sub-tree), and returns it with modif
 |showOriginalLineNumber|@boolean@|@false@|Maps the elements of HTML output, with the line numbers of input text.
 An HTML attribute @data-line@ is added to the HTML block elements = the line number in input text, of the first char of text inside that HTML block.
 For tags inlined inside textile source, a HTML attribute @data-line-end@ is added too = the line number in input text, of the last char of the closing tag of that HTML block.|
+|toc|@boolean@|@false@|A paragraph holding only @{{toc}}@ is replaced by a nested list of links to the document's headings (@<ul class="toc">@); @{{>toc}}@ adds the class @right@. Implies @headingIds@.|
 |useAbbr|@boolean@|@false@|Render acronyms such as @ABC(Always Be Closing)@ with @<abbr>@ instead of @<acronym>@, which is obsolete in HTML5. Expected to become the default in the next major version.|
+
+h3. Presets
+
+@textile.presets.redmine@ turns on the extensions documented in "Redmine's Textile guide":https://www.redmine.org/projects/redmine/wiki/RedmineTextFormattingTextile (@autolink@, @quoteLines@, @headingIds@ and @toc@):
+
+bc. textile.convert(source, textile.presets.redmine);
+textile.convert(source, { ...textile.presets.redmine, breaks: false });
+
+Redmine-specific links that need the application's data (@#123@ issues, @[[Wiki page]]@, @r758@ commits, @attachment:file.zip@...) and macros other than @{{toc}}@ are not handled by the parser; the @hooks@ option is the place to resolve them.
 
 h2. Usage
 

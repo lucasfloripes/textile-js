@@ -44,6 +44,7 @@ const reBlockExtended = re.compile(/^(.*?)($|\r?\n(?=[:txlisthd:])|\r?\n+(?=[:tx
 const reBlockNormalPre = re.compile(/^(.*?)($|\r?\n(?:\s*\n|$)+)/, 's');
 const reBlockExtendedPre = re.compile(/^(.*?)($|\r?\n+(?=[:txblocks:][:txattr:]\.))/, 's');
 
+const reQuoteLines = /^(?:>[^\n]*(?:\r?\n|$))+(?:[^\S\n]*\r?\n)*/;
 const reRuler = /^(---+|\*\*\*+|___+)(\r?\n\s+|$)/;
 const reLinkRef = re.compile(/^\[([^\]]+)\]((?:https?:\/\/|\/)\S+)(?:\s*\n|$)/);
 const reFootnoteDef = /^fn\d+$/;
@@ -360,6 +361,17 @@ function parseFlow (src, options, lineOffset) {
       }
       src.advance(m[0]);
       list.add(elm);
+      continue;
+    }
+
+    // quoted lines: "> text", nested with ">>" (Redmine)
+    if (options.quoteLines && (m = reQuoteLines.exec(src))) {
+      src.advance(m[0]);
+      // drop one level of ">" from each line and parse the rest as blocks
+      const inner = m[0].replace(/\s+$/, '').replace(/^>[^\S\n]?/gm, '');
+      const line = charPosToLine ? charPosToLine[src.getSlot()] : 0;
+      const attr = addLineNumber(null, options, charPosToLine, 0, src.getSlot());
+      list.add([ 'blockquote', attr, '\n' ].concat(parseFlow(inner, options, line), [ '\n' ]));
       continue;
     }
 
