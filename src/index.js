@@ -22,6 +22,8 @@ module.exports = textile;
 textile.defaults = {
   // single-line linebreaks are converted to <br> by default
   breaks: true,
+  // links using these URI schemes get an empty href
+  blockedUriSchemes: [ 'javascript', 'vbscript', 'data' ],
   // by default, don't map the elements of HTML output, with the line numbers of input text
   showOriginalLineNumber: false,
   // line number offset of the first char of input text, for showOriginalLineNumber option

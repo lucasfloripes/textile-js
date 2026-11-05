@@ -7,6 +7,7 @@ const mergeConcatClassname = require('../mergeConcatClassname');
 
 const { parseAttr, addLineNumber } = require('./attr');
 const { parseGlyph } = require('./glyph');
+const { safeHref } = require('./safeHref');
 const { parseHtml, parseHtmlAttr, tokenize, singletons, testComment, testOpenTag } = require('../html');
 
 const { ucaps, txattr, txcite } = require('./re_ext');
@@ -136,7 +137,7 @@ function parsePhrase (src, options, charPosToLine, charOffset) {
 
       if (m[4]) { // +cite causes image to be wraped with a link (or link_ref)?
         // TODO: support link_ref for image cite
-        img = [ 'a', { href: m[4] }, img ];
+        img = [ 'a', { href: safeHref(m[4], options) }, img ];
       }
       list.add(img);
       continue;
@@ -245,11 +246,11 @@ function parsePhrase (src, options, charPosToLine, charOffset) {
         inner = title[0];
         title = '';
       }
-      pba.href = m[2];
+      pba.href = safeHref(m[2], options);
       if (title) { pba.title = title[1]; }
       // links may self-reference their url via $
       if (inner === '$') {
-        inner = pba.href.replace(/^(https?:\/\/|ftps?:\/\/|mailto:)/, '');
+        inner = m[2].replace(/^(https?:\/\/|ftps?:\/\/|mailto:)/, '');
       }
       // FIXME : small shift, because parsePhrase is called with an inexact offset
       list.add([ 'a', pba ].concat(parsePhrase(inner.replace(/^(\.?\s*)/, ''), options, charPosToLine, charOffset + src.getSlot())));

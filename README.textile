@@ -34,6 +34,7 @@ bc. textile( textileString [, options] )
 h3. <a name="options" />Options
 
 |*Member*|*Type*|*Default*|*Notes*|
+|blockedUriSchemes|@string[]@|@['javascript', 'vbscript', 'data']@|Links (and image links) whose URI uses one of these schemes get an empty @href@. The check also catches character references and whitespace tricks such as @java&#9;script&#58;@. Use @[]@ to allow every scheme. Note that this only covers Textile link syntax: raw HTML in the input is passed through as-is, so untrusted input still needs an HTML sanitizer.|
 |break|@boolean@|@true@|Convert single-line linebreaks to @<br>@.|
 |cssClassOriginalLineNumber|@string@|@''@|Add this CSS class name, to each elements of HTML output, mapped to a the line numbers of input text.
 Works only when @showOriginalLineNumber@ option is enabled.|

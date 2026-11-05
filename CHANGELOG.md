@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased]
+### Security
+- [LIBRARY] Links using the `javascript:`, `vbscript:` or `data:` schemes get an empty `href`, including obfuscated forms (character references, embedded whitespace). Configurable with the new `blockedUriSchemes` option. Ported from borgar/textile-js `next-version`.
+
+### Fixed
+- [LIBRARY] An empty named block (`h1.` followed by a blank line) no longer swallows the next block (borgar/textile-js#9).
+
+### Changed
+- [INTERNAL] Build upgraded to webpack 5 and all dev dependencies updated; eslint 10 flat config.
+- [DOCS] Live editor restyled with light/dark theme and responsive layout.
+
 ## [2.0.108] - 20200816
 ### Fixed
 - [INTERNAL] Dependency update and security fix
