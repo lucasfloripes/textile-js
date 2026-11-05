@@ -16,10 +16,10 @@
   "main": "./lib/textile.js",
   "bin": "./bin/textile",
   "preferGlobal": false,
-  "repository": "git://github.com/borgar/textile-js.git",
-  "homepage": "https://github.com/borgar/textile-js",
+  "repository": "git+https://github.com/lucasfloripes/textile-js.git",
+  "homepage": "https://github.com/lucasfloripes/textile-js",
   "bugs": {
-    "url": "http://github.com/borgar/textile-js/issues"
+    "url": "https://github.com/lucasfloripes/textile-js/issues"
   },
   "keywords": [
     "textile",
@@ -30,6 +30,9 @@
     "textile",
     "markup",
     "html"
+  ],
+  "contributors": [
+    "Lucas Floripes (fork maintainer)"
   ],
   "license": "MIT",
   "devDependencies": {

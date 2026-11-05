@@ -1,5 +1,7 @@
 h1. textile.js
 
+p(note). *This is a community-maintained fork* of "borgar/textile-js":https://github.com/borgar/textile-js, which has not been updated since 2021. The goal is to keep the parser maintained, integrate pending fixes from the original repository's pull requests and forks, and keep the toolchain up to date. All credit for the original work goes to Borgar Þorsteinsson. Issues and pull requests are welcome here.
+
 Attempt at an implementation of fully featured Textile parser in JavaScript that runs reasonably fast and mostly avoids outputting broken HTML.
 
 Give it a go in "a live textile web editor":http://borgar.github.io/textile-js/.
