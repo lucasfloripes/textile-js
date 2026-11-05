@@ -143,6 +143,12 @@ function parseFlow (src, options, lineOffset) {
 
   // loop
   while (src.valueOf()) {
+    // blank lines between blocks (some block patterns leave one behind)
+    const blank = /^(?:[^\S\n]*\r?\n)+/.exec(src);
+    if (blank) {
+      src.advance(blank[0]);
+      continue;
+    }
     src.save();
 
     // link_ref -- this goes first because it shouldn't trigger a linebreak
@@ -367,11 +373,23 @@ function parseFlow (src, options, lineOffset) {
     // quoted lines: "> text", nested with ">>" (Redmine)
     if (options.quoteLines && (m = reQuoteLines.exec(src))) {
       src.advance(m[0]);
-      // drop one level of ">" from each line and parse the rest as blocks
-      const inner = m[0].replace(/\s+$/, '').replace(/^>[^\S\n]?/gm, '');
+      // drop one level of ">" from each line, then parse each run of lines
+      // at the same depth on its own so a deeper level nests even when it
+      // directly follows a shallower line
+      const lines = m[0].replace(/\s+$/, '').split('\n').map(l => l.replace(/^>[^\S\n]?/, ''));
       const line = charPosToLine ? charPosToLine[src.getSlot()] : 0;
       const attr = addLineNumber(null, options, charPosToLine, 0, src.getSlot());
-      list.add([ 'blockquote', attr, '\n' ].concat(parseFlow(inner, options, line), [ '\n' ]));
+      const quote = [ 'blockquote', attr, '\n' ];
+      let start = 0;
+      for (let i = 1; i <= lines.length; i++) {
+        if (i === lines.length || /^>/.test(lines[i]) !== /^>/.test(lines[start])) {
+          if (start) { quote.push('\n'); }
+          quote.push(...parseFlow(lines.slice(start, i).join('\n'), options, line + start));
+          start = i;
+        }
+      }
+      quote.push('\n');
+      list.add(quote);
       continue;
     }
 

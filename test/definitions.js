@@ -88,3 +88,11 @@ ok =:\n\
   t.end();
 });
 
+
+
+test('definition list right after another one', function (t) {
+  t.is(textile.convert('- a := b\n- c := d\n\n- term :=\nA def.\n\nSecond. =:'),
+    '<dl>\n\t<dt>a</dt>\n\t<dd>b</dd>\n\t<dt>c</dt>\n\t<dd>d</dd>\n</dl>\n' +
+    '<dl>\n\t<dt>term</dt>\n\t<dd><p>A def.</p>\n<p>Second.</p></dd>\n</dl>');
+  t.end();
+});

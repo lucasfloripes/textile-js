@@ -59,6 +59,8 @@ test('quoteLines', function (t) {
   t.is(textile.convert('> * a\n> * b', o),
     '<blockquote>\n<ul>\n\t<li>a</li>\n\t<li>b</li>\n</ul>\n</blockquote>');
   t.is(textile.convert('a > b', o), '<p>a &gt; b</p>');
+  t.is(textile.convert('> quoted line\n>> nested quote', o),
+    '<blockquote>\n<p>quoted line</p>\n<blockquote>\n<p>nested quote</p>\n</blockquote>\n</blockquote>', 'deeper level right after a shallower line');
   t.end();
 });
 
@@ -66,6 +68,8 @@ test('quoteLines', function (t) {
 test('quoteLines with line numbers', function (t) {
   t.is(textile.convert('intro\n\n>> deep\n> mid\n\nafter', { quoteLines: true, showOriginalLineNumber: true }),
     '<p data-line="0">intro</p>\n<blockquote data-line="2">\n<blockquote data-line="2">\n<p data-line="2">deep</p>\n</blockquote>\n<p data-line="3">mid</p>\n</blockquote>\n<p data-line="5">after</p>');
+  t.is(textile.convert('> a\n>> b\n> c', { quoteLines: true, showOriginalLineNumber: true }),
+    '<blockquote data-line="0">\n<p data-line="0">a</p>\n<blockquote data-line="1">\n<p data-line="1">b</p>\n</blockquote>\n<p data-line="2">c</p>\n</blockquote>');
   t.end();
 });
 

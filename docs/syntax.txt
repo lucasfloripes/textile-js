@@ -1,71 +1,207 @@
-h1. level 1 heading
+h2. Headings
 
-h2. level 2 heading
+h1. Heading 1
 
-h3. level 3 heading
+h2. Heading 2
 
-h4. level 4 heading
+h3. Heading 3
 
-bq. this is blockquoted text
+h4. Heading 4
 
-fn1. footnote 1
+h5. Heading 5
 
-fn2. footnote 2
+h6. Heading 6
 
-This text references a footnote[1]
+h2. Font styles
 
-# numbered list item 1
-# numbered list item 2
+*strong*
+**bold**
+_emphasis_
+__italic__
+*_strong emphasis_*
++inserted (underline)+
+-deleted (strike-through)-
+Plain ^superscript^
+Plain ~subscript~
+@inline code@
+??citation??
+%span%
+E=mc[^2^]
+normal[*bold*][_italic_]normal
 
-* bulleted list first item
-* bulleted list second item
+h2. Colors and CSS
+
+%{color:red}red text%
+%{color:#82B6E1}blue'ish text%
+%{background:yellow}yellow background%
+
+p{border:1px solid #000; padding:.5em}. Paragraph with inline CSS
+
+h2. Paragraphs
+
+p. Regular paragraph
+
+p<. Left aligned paragraph
+
+p>. Right aligned paragraph
+
+p=. Centered paragraph
+
+p<>. Justified paragraph
+
+p(. Left indent 1em
+
+p((. Left indent 2em
+
+p)))>. Right indent 3em, right aligned
+
+p(class). Paragraph with a class
+
+p(#id). Paragraph with an id
+
+p(class#id). Class and id
+
+p[fr]. Paragraphe en français
+
+h2. Links
+
+"link text":http://www.example.com
+"link text (with title)":http://www.example.com
+"$":http://www.example.com
+["link in brackets":http://www.example.com]text
+"Email me":mailto:someone@example.com
+"Email with subject":mailto:someone@example.com?subject=Hello%20there
+
+"link to a reference":ref
+
+[ref]http://www.example.com
+
+h2. Images
+
+!http://www.example.com/image.png!
+!http://www.example.com/image.png(Image title)!
+!http://www.example.com/image.png!:http://www.example.com
+!<http://www.example.com/image.png! (left)
+!>http://www.example.com/image.png! (right)
+!{width:100px}http://www.example.com/image.png!
+
+h2. Blocks
+
+bq. This is a blockquote.
+It can span lines.
+
+bq.:http://www.example.com Blockquote with a citation
+
+bc. code block
+  keeps    whitespace
+
+pre. preformatted
+  text
+
+notextile. *Not* _parsed_ as Textile
+
+<pre>*not bold* inside pre</pre>
+
+<notextile>*not bold* _not italic_</notextile>
+
+==*not bold*== (inline notextile)
+
+&#42;escaped with entities&#42;
+
+###. Textile comment, not shown in the output
+
+h2. Extended blocks
+
+bc.. extended code block
+
+keeps going over blank lines
+
+p. until the next block signature
+
+h2. Horizontal rule
+
+---
+
+h2. Lists
+
+* Bulleted item
+* Bulleted item
+** Nested item
+** Nested item
+
+# Numbered item
+# Numbered item
+## Nested item
+## Nested item
+
+* Mixed list
+*# Numbered inside bulleted
+
+h2. Definition lists
 
 - term := definition
 - another term := its definition
 
+- term with a long definition :=
+p. A definition with *several* blocks.
+
+Second paragraph. =:
+
 ; term
 : definition (MediaWiki style)
+; another term
+: its definition
 
-_emphasis_
-*strong*
-??citation??
--deleted text-
-+inserted text+
-^superscript^
-~subscript~
-%span%
+h2. Tables
 
-p(class). paragraph with a classname
+|_. Header |_. Header |_. Header |
+| cell | cell | cell |
+|\2. colspan 2 | cell |
+|/2. rowspan 2 | cell | cell |
+| cell | cell |
+|<. left |=. center |>. right |
+|^. top |~. bottom | normal |
+|{background:#ffd}. styled cell | cell <notextile>|</notextile> with a pipe | cell |
 
-p(#id). paragraph with an ID
+table(class){width:100%}.
+| table with class and style |
 
-p{color:red}. paragraph with a CSS style
+table(summary). Table with a summary
+|^.
+|_. thead |
+|-.
+| tbody |
+|~.
+| tfoot |
 
-p[fr]. paragraphe en français
+h2. Footnotes
 
-p<. left aligned paragraph
+Text with a footnote[1] and a reference without link[2!].
 
-p>. right aligned paragraph
+fn1. The footnote.
 
-p=. centered aligned paragraph
+fn2. Another footnote.
 
-p<>. justified text paragraph
+h2. Acronyms and glyphs
 
-|_. head |_. table |_. row |
-| a | table | row 1 |
-| a | table | row 2 |
+NASA
+ABC(Always Be Closing)
+"quotes" and 'quotes'
+-- em dash, en dash - here
+... ellipsis
+2 x 4
+(c) (r) (tm)
+-> arrow
 
-"linktext":url
+h2. Redmine syntax
 
-!imageurl!
-
-ABBR(Abbreviation)
-
-With "Redmine syntax" enabled:
+These need the "Redmine syntax" toggle (or textile.presets.redmine):
 
 {{toc}}
+
+{{>toc}}
 
 > quoted line
 >> nested quote
 
-http://www.redmine.org and someone@example.com become links
+Bare links: http://www.redmine.org www.redmine.org someone@example.com
