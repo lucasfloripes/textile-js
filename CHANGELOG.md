@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - [LIBRARY] Links using the `javascript:`, `vbscript:` or `data:` schemes get an empty `href`, including obfuscated forms (character references, embedded whitespace). Configurable with the new `blockedUriSchemes` option. Ported from borgar/textile-js `next-version`.
 
+### Added
+- [LIBRARY] MediaWiki style definition lists (`; term` / `: definition`). Ported from borgar/textile-js `next-version`.
+- [LIBRARY] `idPrefix` option to prefix footnote ids, so several documents can share a page. Ported from `next-version`.
+- [LIBRARY] `useAbbr` option to render `<abbr>` instead of the obsolete `<acronym>`. Ported from `next-version`.
+
 ### Fixed
 - [LIBRARY] An empty named block (`h1.` followed by a blank line) no longer swallows the next block (borgar/textile-js#9).
 

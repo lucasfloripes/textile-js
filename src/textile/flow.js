@@ -13,6 +13,7 @@ const { parsePhrase } = require('./phrase');
 const { copyAttr, parseAttr, addLineNumber } = require('./attr');
 const { testList, parseList } = require('./list');
 const { testDefList, parseDefList } = require('./deflist');
+const { testDefListWiki, parseDefListWiki } = require('./deflistwiki');
 const { testTable, parseTable } = require('./table');
 const footnoteId = require('./footnoteId');
 
@@ -366,6 +367,13 @@ function parseFlow (src, options, lineOffset) {
     if ((m = testList(src))) {
       src.advance(m[0]);
       list.add(parseList(m[0], options, charPosToLine, src.getSlot()));
+      continue;
+    }
+
+    // definition list, MediaWiki style
+    if ((m = testDefListWiki(src))) {
+      src.advance(m[0]);
+      list.add(parseDefListWiki(m[0], options, charPosToLine, src.getSlot()));
       continue;
     }
 
