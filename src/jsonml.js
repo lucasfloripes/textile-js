@@ -34,7 +34,7 @@ function reIndent (ml, shiftBy) {
   });
 }
 
-function escape (text, escapeQuotes) {
+function escapeHTML (text, escapeQuotes) {
   return text.replace(/&(?!(#\d{2,}|#x[\da-fA-F]{2,}|[a-zA-Z][a-zA-Z1-4]{1,6});)/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -47,7 +47,7 @@ function toHTML (jsonml, renderers) {
 
   // basic case
   if (typeof jsonml === 'string') {
-    return escape(jsonml);
+    return escapeHTML(jsonml);
   }
 
   const tag = jsonml.shift();
@@ -73,7 +73,7 @@ function toHTML (jsonml, renderers) {
   for (const a in attributes) {
     tagAttrs += (attributes[a] == null)
       ? ` ${a}`
-      : ` ${a}="${escape(String(attributes[a]), true)}"`;
+      : ` ${a}="${escapeHTML(String(attributes[a]), true)}"`;
   }
 
   // be careful about adding whitespace here for inline elements
@@ -107,11 +107,11 @@ function applyHooks (ml, hooks = [], level = undefined) {
 
 function isNode (ml) {
   return Array.isArray(ml) && typeof ml[0] === 'string';
-};
+}
 
 function isAttributes (mlPart) {
   return typeof mlPart === 'object' && !Array.isArray(mlPart);
-};
+}
 
 function hasAttributes (ml) {
   if (!isNode(ml)) {
@@ -119,7 +119,7 @@ function hasAttributes (ml) {
   }
 
   return isAttributes(ml[1]);
-};
+}
 
 function addAttributes (ml, newAttr) {
   if (hasAttributes(ml)) {
@@ -131,12 +131,12 @@ function addAttributes (ml, newAttr) {
 
     return attr;
   }
-};
+}
 
 module.exports = {
   reIndent: reIndent,
   toHTML: toHTML,
-  escape: escape,
+  escape: escapeHTML,
   applyHooks: applyHooks,
   addAttributes: addAttributes
 };

@@ -76,8 +76,8 @@ function parseTable (src, options, charPosToLine, charOffset) {
   let m;
   let extended = 0;
 
-  const setRowGroup = function (type, pba) {
-    tCurr = [ type, pba || {} ];
+  const setRowGroup = function (type, groupAttr) {
+    tCurr = [ type, groupAttr || {} ];
     rowgroups.push(tCurr);
   };
 

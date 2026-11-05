@@ -17,9 +17,9 @@ module.exports = function builder (initArr) {
       return this;
     },
 
-    merge: function (arr) {
-      for (let i = 0, l = arr.length; i < l; i++) {
-        this.add(arr[i]);
+    merge: function (nodes) {
+      for (let i = 0, l = nodes.length; i < l; i++) {
+        this.add(nodes[i]);
       }
       return this;
     },

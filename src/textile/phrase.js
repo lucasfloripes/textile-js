@@ -102,7 +102,8 @@ function parsePhrase (src, options, charPosToLine, charOffset) {
       }
       else {
         const t1 = re.escape(tok.charAt(0));
-        mMid = (code) ? '^(\\S+|\\S+.*?\\S)'
+        mMid = (code)
+          ? '^(\\S+|\\S+.*?\\S)'
           : `^([^\\s${t1}]+|[^\\s${t1}].*?\\S(${t1}*))`;
         mEnd = '(?=$|[\\s.,"\'!?;:()«»„“”‚‘’<>])';
       }
@@ -208,10 +209,10 @@ function parsePhrase (src, options, charPosToLine, charOffset) {
     // footnote
     if ((m = reFootnote.exec(src)) && /\S/.test(behind)) {
       src.advance(m[0]);
-      list.add([ 'sup', { class: 'footnote', id: 'fnr' + m[1] },
-        (m[2] === '!' ? m[1] // "!" suppresses the link
-          : [ 'a', { href: '#fn' + m[1] }, m[1] ])
-      ]);
+      const ref = m[2] === '!' // "!" suppresses the link
+        ? m[1]
+        : [ 'a', { href: '#fn' + m[1] }, m[1] ];
+      list.add([ 'sup', { class: 'footnote', id: 'fnr' + m[1] }, ref ]);
       continue;
     }
 

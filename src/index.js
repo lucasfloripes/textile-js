@@ -14,8 +14,8 @@ function textile (txt, opt) {
   // get a throw-away copy of options
   opt = merge(merge({}, textile.defaults), opt || {});
   // run the converter
-  return parseFlow(txt, opt, opt.lineOffset).map((value) => jsonmlUtils.toHTML(value, opt.renderers)).join('');
-};
+  return parseFlow(txt, opt, opt.lineOffset).map(value => jsonmlUtils.toHTML(value, opt.renderers)).join('');
+}
 module.exports = textile;
 
 // options

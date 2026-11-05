@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const, no-multi-str, quotes */
 const test = require('tape');
 const textile = require('../src');
 // textism.yml

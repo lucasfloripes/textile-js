@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const, no-multi-str, quotes, no-multiple-empty-lines */
 const test = require('tape');
 const textile = require('../src');
 

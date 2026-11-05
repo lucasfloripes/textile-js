@@ -83,12 +83,13 @@ function paragraph (s, tag, pba, linebreak, options, charPosToLine, charOffset) 
     }
     else {
       if (linebreak && i) { out.push(linebreak); }
-      out.push(pba ? [ tag, pba ].concat(parsePhrase(bit, options, charPosToLine, charOffset))
+      out.push(pba
+        ? [ tag, pba ].concat(parsePhrase(bit, options, charPosToLine, charOffset))
         : [ tag ].concat(parsePhrase(bit, options, charPosToLine, charOffset)));
     }
   });
   return out;
-};
+}
 
 function computeCharOffset (src, options, lineOffset) {
   if (options.showOriginalLineNumber) {

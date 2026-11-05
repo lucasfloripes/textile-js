@@ -45,7 +45,7 @@ function parseList (src, options, charPosToLine, charOffset) {
   while ((m = reItem.exec(src))) {
     const item = [ 'li' ];
     const destLevel = m[1].length;
-    const type = (m[1].substr(-1) === '#') ? 'ol' : 'ul';
+    const type = (m[1].slice(-1) === '#') ? 'ol' : 'ul';
     let newLi = null;
     let lst;
     let par;
@@ -98,7 +98,7 @@ function parseList (src, options, charPosToLine, charOffset) {
       r = stack.pop();
       r.ul.push(listPad(stack.length));
       // lists have a predictable structure - move pba from listitem to list
-      if (r.att === 1 && !r.ul[3][1].substr) {
+      if (r.att === 1 && typeof r.ul[3][1] !== 'string') {
         merge(r.ul[1], r.ul[3].splice(1, 1)[0]);
       }
     }
@@ -143,7 +143,7 @@ function parseList (src, options, charPosToLine, charOffset) {
     s = stack.pop();
     s.ul.push(listPad(stack.length));
     // lists have a predictable structure - move pba from listitem to list
-    if (s.att === 1 && !s.ul[3][1].substr) {
+    if (s.att === 1 && typeof s.ul[3][1] !== 'string') {
       merge(s.ul[1], s.ul[3].splice(1, 1)[0]);
     }
     // line number should stay on listitem

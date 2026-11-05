@@ -188,10 +188,10 @@ function parse (tokens, lazy) {
     }
     else if (token.type === CLOSE) {
       if (stack.length) {
-        for (let i = stack.length - 1; i >= 0; i--) {
-          const head = stack[i];
+        for (let j = stack.length - 1; j >= 0; j--) {
+          const head = stack[j];
           if (head[0] === token.tag) {
-            stack.splice(i);
+            stack.splice(j);
             curr = stack[stack.length - 1] || root;
             break;
           }

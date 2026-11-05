@@ -8,7 +8,7 @@
     "start": "webpack --mode development --watch",
     "dev": "nodemon -w test -w src -x 'tape 'test/*.js'|tap-min'",
     "test": "tape test/*js | tap-min",
-    "lint": "eslint src/*js src/textile/*js test/*js",
+    "lint": "eslint . bin/textile",
     "coverage": "nyc --reporter html --reporter text tape test/*js"
   },
   "main": "./lib/textile.js",
@@ -34,21 +34,19 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.29.13",
-    "@babel/plugin-proposal-class-properties": "~7.8.3",
-    "@babel/plugin-proposal-export-default-from": "~7.8.3",
-    "@babel/polyfill": "~7.8.3",
-    "@babel/preset-env": "^7.29.7",
-    "@babel/register": "~7.8.3",
-    "@borgar/eslint-config": "~1.1.0",
-    "babel-loader": "^9.2.1",
-    "eslint": "~6.8.0",
-    "eslint-plugin-import": "~2.20.1",
-    "nyc": "~15.0.0",
-    "tap-min": "~2.0.0",
-    "tape": "~4.13.0",
+    "@babel/core": "^8.1.0",
+    "@babel/preset-env": "^8.0.7",
+    "@borgar/eslint-config": "^4.1.0",
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "~5.9.0",
+    "babel-loader": "^10.1.1",
+    "eslint": "^10.14.0",
+    "globals": "^17.14.0",
+    "nyc": "^18.0.0",
+    "tap-min": "^3.0.0",
+    "tape": "^5.10.3",
     "terser-webpack-plugin": "^5.6.1",
     "webpack": "^5.112.2",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^7.3.1"
   }
 }

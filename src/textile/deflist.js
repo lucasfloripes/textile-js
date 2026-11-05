@@ -40,12 +40,12 @@ function parseDefList (src, options, charPosToLine, charOffset) {
     }
     while (terms.length) {
       const term = terms.shift();
-      deflist.push('\t'
-        , [ 'dt' ].concat(
-          addLineNumber({}, options, charPosToLine, charOffset, src.getPos() + localCharOffset)
-          , parsePhrase(term.trim(), options, charPosToLine, charOffset))
-        , '\n'
-      );
+      deflist.push('\t',
+        [ 'dt' ].concat(
+          addLineNumber({}, options, charPosToLine, charOffset, src.getPos() + localCharOffset),
+          parsePhrase(term.trim(), options, charPosToLine, charOffset)
+        ),
+        '\n');
       if (options.showOriginalLineNumber) {
         localCharOffset += term.length;
         // perhaps no separator at the end of the list
@@ -65,15 +65,14 @@ function parseDefList (src, options, charPosToLine, charOffset) {
         localCharOffset += removedSrc[0].length;
       }
     }
-    deflist.push('\t'
-      , [ 'dd' ].concat(
-        addLineNumber({}, options, charPosToLine, charOffset, src.getPos() + localCharOffset)
-        , (/=:$/.test(def))
+    deflist.push('\t',
+      [ 'dd' ].concat(
+        addLineNumber({}, options, charPosToLine, charOffset, src.getPos() + localCharOffset),
+        (/=:$/.test(def))
           ? parseFlow(def.slice(0, -2).trim(), options, options.showOriginalLineNumber ? charPosToLine[(charOffset || 0) + localCharOffset + src.getPos()] : 0)
           : parsePhrase(def, options, charPosToLine, (charOffset || 0) + localCharOffset + src.getPos())
-      )
-      , '\n'
-    );
+      ),
+      '\n');
     src.advance(m[0]);
   }
   return deflist;

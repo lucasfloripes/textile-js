@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const, no-multi-str, quotes */
 const test = require('tape');
 const textile = require('../src');
 // basic.yml
@@ -9,7 +8,7 @@ Followed by another.";
   t.is(textile.convert(tx, {
     showOriginalLineNumber: true,
     hooks: [ [
-      (jsonml) => {
+      jsonml => {
         if (typeof (jsonml[1]) === 'object') {
           jsonml[1].class = 'hooked';
         }

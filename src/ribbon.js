@@ -49,7 +49,7 @@ module.exports = function ribbon (feed) {
     },
 
     startsWith: s => {
-      return feed.substring(0, s.length) === s;
+      return feed.slice(0, s.length) === s;
     },
 
     slice: (a, b) => {

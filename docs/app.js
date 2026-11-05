@@ -1,6 +1,4 @@
-/* globals document fetch textile localStorage setTimeout clearTimeout  */
 (function () {
-
   function getElm (selector) {
     return document.querySelector(selector);
   }
@@ -65,10 +63,10 @@
     d.addEventListener('click', e => {
       e.preventDefault();
       const id = e.target.href.replace(/^[^#]+/, '');
-      tabs.forEach(d => {
-        const targetId = d.href.replace(/^[^#]+/, '');
+      tabs.forEach(tab => {
+        const targetId = tab.href.replace(/^[^#]+/, '');
         const show = targetId === id;
-        d.parentNode.classList.toggle('current', show);
+        tab.parentNode.classList.toggle('current', show);
         getElm(targetId).style.display = show ? 'block' : 'none';
       });
     });
@@ -76,7 +74,7 @@
 
 
   let convertTextTimer;
-  attach('#tx_input', 'keyup', e => {
+  attach('#tx_input', 'keyup', () => {
     clearTimeout(convertTextTimer);
     const defer_time = Math.min(processing_time, max_delay);
     convertTextTimer = setTimeout(convert_text, defer_time);
@@ -103,10 +101,9 @@
     }
   });
 
-  attach('button.clear', 'click', e => {
+  attach('button.clear', 'click', () => {
     convert_text('');
   });
 
   convert_text();
-
 })();
