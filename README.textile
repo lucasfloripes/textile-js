@@ -35,10 +35,9 @@ h3. <a name="options" />Options
 
 |*Member*|*Type*|*Default*|*Notes*|
 |blockedUriSchemes|@string[]@|@['javascript', 'vbscript', 'data']@|Links (and image links) whose URI uses one of these schemes get an empty @href@. The check also catches character references and whitespace tricks such as @java&#9;script&#58;@. Use @[]@ to allow every scheme. Note that this only covers Textile link syntax: raw HTML in the input is passed through as-is, so untrusted input still needs an HTML sanitizer.|
-|break|@boolean@|@true@|Convert single-line linebreaks to @<br>@.|
+|breaks|@boolean@|@true@|Convert single-line linebreaks to @<br>@.|
 |cssClassOriginalLineNumber|@string@|@''@|Add this CSS class name, to each elements of HTML output, mapped to a the line numbers of input text.
 Works only when @showOriginalLineNumber@ option is enabled.|
-|idPrefix|@string@ or @boolean@|@false@|Prefix footnote ids so several documents can share a page: @fn1@ becomes @fn-PREFIX-1@ (and @fnr1@ becomes @fnr-PREFIX-1@). @true@ picks a random prefix per call.|
 |hooks|<pre><code>[
   function(
     jsonml :any[],
@@ -48,6 +47,7 @@ Works only when @showOriginalLineNumber@ option is enabled.|
   param? :any
 ]</code></pre>|@[]@|Array of function (and optional initial parameter), applied in the order of the array to each JsonML node before rendering to HTML.
 The function receives a JsonML node (JsonML sub-tree), and returns it with modifications.|
+|idPrefix|@string@ or @boolean@|@false@|Prefix footnote ids so several documents can share a page: @fn1@ becomes @fn-PREFIX-1@ (and @fnr1@ becomes @fnr-PREFIX-1@). @true@ picks a random prefix per call.|
 |lineOffset|@integer@|@0@|Line number offset of the first char in input text, for @showOriginalLineNumber@ option.|
 |renderers|<pre><code>[
     content: function(
@@ -60,6 +60,7 @@ The function receives a JsonML node (JsonML sub-tree), and returns it with modif
 |showOriginalLineNumber|@boolean@|@false@|Maps the elements of HTML output, with the line numbers of input text.
 An HTML attribute @data-line@ is added to the HTML block elements = the line number in input text, of the first char of text inside that HTML block.
 For tags inlined inside textile source, a HTML attribute @data-line-end@ is added too = the line number in input text, of the last char of the closing tag of that HTML block.|
+|useAbbr|@boolean@|@false@|Render acronyms such as @ABC(Always Be Closing)@ with @<abbr>@ instead of @<acronym>@, which is obsolete in HTML5. Expected to become the default in the next major version.|
 
 h2. Usage
 

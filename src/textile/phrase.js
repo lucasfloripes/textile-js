@@ -223,8 +223,8 @@ function parsePhrase (src, options, charPosToLine, charOffset) {
       src.advance(m[0]);
       let caps = [ 'span', { class: 'caps' }, m[1] ];
       if (m[2]) {
-        // FIXME: use <abbr>, not acronym!
-        caps = [ 'acronym', { title: m[2] }, caps ];
+        // <acronym> is obsolete in HTML5, but stays the default for compatibility
+        caps = [ options.useAbbr ? 'abbr' : 'acronym', { title: m[2] }, caps ];
       }
       list.add(caps);
       continue;

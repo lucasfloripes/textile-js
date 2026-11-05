@@ -14,6 +14,8 @@ const { parseHtml } = require('./html');
 const defaults = {
   // single-line linebreaks are converted to <br> by default
   breaks: true,
+  // emit <abbr> instead of the obsolete <acronym> for "ABC(title)"
+  useAbbr: false,
   // prefix for footnote ids: a string, true (random) or false (none)
   idPrefix: false,
   // links using these URI schemes get an empty href
