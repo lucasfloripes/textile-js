@@ -38,6 +38,7 @@ h3. <a name="options" />Options
 |break|@boolean@|@true@|Convert single-line linebreaks to @<br>@.|
 |cssClassOriginalLineNumber|@string@|@''@|Add this CSS class name, to each elements of HTML output, mapped to a the line numbers of input text.
 Works only when @showOriginalLineNumber@ option is enabled.|
+|idPrefix|@string@ or @boolean@|@false@|Prefix footnote ids so several documents can share a page: @fn1@ becomes @fn-PREFIX-1@ (and @fnr1@ becomes @fnr-PREFIX-1@). @true@ picks a random prefix per call.|
 |hooks|<pre><code>[
   function(
     jsonml :any[],

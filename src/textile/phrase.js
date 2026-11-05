@@ -8,6 +8,7 @@ const mergeConcatClassname = require('../mergeConcatClassname');
 const { parseAttr, addLineNumber } = require('./attr');
 const { parseGlyph } = require('./glyph');
 const { safeHref } = require('./safeHref');
+const footnoteId = require('./footnoteId');
 const { parseHtml, parseHtmlAttr, tokenize, singletons, testComment, testOpenTag } = require('../html');
 
 const { ucaps, txattr, txcite } = require('./re_ext');
@@ -212,8 +213,8 @@ function parsePhrase (src, options, charPosToLine, charOffset) {
       src.advance(m[0]);
       const ref = m[2] === '!' // "!" suppresses the link
         ? m[1]
-        : [ 'a', { href: '#fn' + m[1] }, m[1] ];
-      list.add([ 'sup', { class: 'footnote', id: 'fnr' + m[1] }, ref ]);
+        : [ 'a', { href: '#' + footnoteId('fn', m[1], options) }, m[1] ];
+      list.add([ 'sup', { class: 'footnote', id: footnoteId('fnr', m[1], options) }, ref ]);
       continue;
     }
 

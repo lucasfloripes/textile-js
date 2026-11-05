@@ -14,6 +14,7 @@ const { copyAttr, parseAttr, addLineNumber } = require('./attr');
 const { testList, parseList } = require('./list');
 const { testDefList, parseDefList } = require('./deflist');
 const { testTable, parseTable } = require('./table');
+const footnoteId = require('./footnoteId');
 
 const { txblocks, txlisthd, txattr } = require('./re_ext');
 re.pattern.txblocks = txblocks;
@@ -216,8 +217,8 @@ function parseFlow (src, options, lineOffset) {
           const fnid = blockType.replace(/\D+/g, '');
           if (!pba) { pba = {}; }
           pba.class = (pba.class ? pba.class + ' ' : '') + 'footnote';
-          pba.id = 'fn' + fnid;
-          list.add([ 'p', pba, [ 'a', { href: '#fnr' + fnid }, [ 'sup', fnid ] ], ' ' ]
+          pba.id = footnoteId('fn', fnid, options);
+          list.add([ 'p', pba, [ 'a', { href: '#' + footnoteId('fnr', fnid, options) }, [ 'sup', fnid ] ], ' ' ]
             .concat(parsePhrase(m[1], options, charPosToLine, src.getSlot())));
         }
         else { // heading | paragraph

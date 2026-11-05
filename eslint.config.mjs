@@ -37,7 +37,7 @@ export default [
       globals: { ...globals.node }
     },
     rules: {
-      'no-use-before-define': 'error'
+      'no-use-before-define': [ 'error', { functions: false } ]
     }
   },
   {

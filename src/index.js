@@ -10,18 +10,12 @@ const jsonmlUtils = require('./jsonml');
 const { parseFlow } = require('./textile/flow');
 const { parseHtml } = require('./html');
 
-function textile (txt, opt) {
-  // get a throw-away copy of options
-  opt = merge(merge({}, textile.defaults), opt || {});
-  // run the converter
-  return parseFlow(txt, opt, opt.lineOffset).map(value => jsonmlUtils.toHTML(value, opt.renderers)).join('');
-}
-module.exports = textile;
-
 // options
-textile.defaults = {
+const defaults = {
   // single-line linebreaks are converted to <br> by default
   breaks: true,
+  // prefix for footnote ids: a string, true (random) or false (none)
+  idPrefix: false,
   // links using these URI schemes get an empty href
   blockedUriSchemes: [ 'javascript', 'vbscript', 'data' ],
   // by default, don't map the elements of HTML output, with the line numbers of input text
@@ -35,6 +29,25 @@ textile.defaults = {
   // function called where a JsonML node is rendered to HTML
   renderers: {}
 };
+
+// get a throw-away copy of the options, with defaults applied
+function getOptions (opt) {
+  opt = merge(merge({}, textile.defaults), opt || {});
+  if (opt.idPrefix === true) {
+    opt.idPrefix = Math.floor(Math.random() * 1e9).toString(36);
+  }
+  return opt;
+}
+
+function textile (txt, opt) {
+  opt = getOptions(opt);
+  // run the converter
+  return parseFlow(txt, opt, opt.lineOffset).map(value => jsonmlUtils.toHTML(value, opt.renderers)).join('');
+}
+module.exports = textile;
+
+textile.defaults = defaults;
+
 textile.setOptions = textile.setoptions = function (opt) {
   merge(textile.defaults, opt);
   return this;
@@ -44,8 +57,7 @@ textile.parse = textile.convert = textile;
 textile.html_parser = parseHtml;
 
 textile.tokenize = function (txt, opt) {
-  // get a throw-away copy of options
-  opt = merge(merge({}, textile.defaults), opt || {});
+  opt = getOptions(opt);
   // parse and return tree
   return parseFlow(txt, opt, opt.lineOffset);
 };
