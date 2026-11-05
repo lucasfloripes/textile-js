@@ -11,7 +11,7 @@ const { reIndent } = require('../jsonml');
 const { txattr } = require('./re_ext');
 re.pattern.txattr = txattr;
 
-const reTable = re.compile(/^((?:table[:txattr:]\.(?:\s(.+?))\s*\n)?(?:(?:[:txattr:]\.[^\n\S]*)?\|.*?\|[^\n\S]*(?:\n|$))+)([^\n\S]*\n+)?/, 's');
+const reTable = re.compile(/^((?:table[:txattr:]\.(?:[ \t]([^\n]+?))?[^\S\n]*\n)?(?:(?:[:txattr:]\.[^\n\S]*)?\|.*?\|[^\n\S]*(?:\n|$))+)([^\n\S]*\n+)?/, 's');
 const reHead = /^table(_?)([^\n]*?)\.(?:[ \t](.+?))?\s*\n/;
 const reRowCapture = re.compile(/^(\|([~^-][:txattr:])\.\s*\n)?([:txattr:]\.[^\n\S]*)?(\|)(.*?)\|[^\n\S]*(\n|$)/, 's');
 const reCaption = /^\|=([^\n+]*)\n/;
@@ -171,7 +171,7 @@ function parseTable (src, options, charPosToLine, charOffset) {
           }
         }
 
-        const mx = /^(==.*?==|[^|])*/.exec(inner);
+        const mx = /^(==.*?==|<notextile>.*?<\/notextile>|[^|])*/.exec(inner);
         cell = cell.concat(parsePhrase(mx[0], options, charPosToLine, charOffset + src.getPos() + localCharOffset + inner.getPos()));
         row.push('\n\t\t\t', cell);
         more = inner.valueOf().charAt(mx[0].length) === '|';

@@ -437,3 +437,21 @@ test('with empty cells', function (t) {
 });
 
 
+
+
+test('table attributes line before a single row', function (t) {
+  t.is(textile.convert('table(x).\n| a |'),
+    '<table class="x">\n\t<tr>\n\t\t<td> a </td>\n\t</tr>\n</table>');
+  t.is(textile.convert('table{width:100%}.\n| a |'),
+    '<table style="width:100%">\n\t<tr>\n\t\t<td> a </td>\n\t</tr>\n</table>');
+  t.is(textile.convert('table(x). summary text\n| a |\n| b |'),
+    '<table class="x" summary="summary text">\n\t<tr>\n\t\t<td> a </td>\n\t</tr>\n\t<tr>\n\t\t<td> b </td>\n\t</tr>\n</table>');
+  t.end();
+});
+
+
+test('pipe escaped with notextile inside a cell', function (t) {
+  t.is(textile.convert('| a <notextile>|</notextile> b | c |'),
+    '<table>\n\t<tr>\n\t\t<td> a | b </td>\n\t\t<td> c </td>\n\t</tr>\n</table>');
+  t.end();
+});
