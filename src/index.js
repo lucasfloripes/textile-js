@@ -5,57 +5,57 @@
 **
 */
 
-const merge = require( './merge' );
-const jsonmlUtils = require( './jsonml' );
-const { parseFlow } = require( './textile/flow' );
-const { parseHtml } = require( './html' );
+const merge = require('./merge');
+const jsonmlUtils = require('./jsonml');
+const { parseFlow } = require('./textile/flow');
+const { parseHtml } = require('./html');
 
-function textile ( txt, opt ) {
+function textile (txt, opt) {
   // get a throw-away copy of options
-  opt = merge( merge({}, textile.defaults ), opt || {});
+  opt = merge(merge({}, textile.defaults), opt || {});
   // run the converter
-  return parseFlow( txt, opt, opt.lineOffset ).map( ( value ) => jsonmlUtils.toHTML( value, opt.renderers ) ).join( '' );
+  return parseFlow(txt, opt, opt.lineOffset).map((value) => jsonmlUtils.toHTML(value, opt.renderers)).join('');
 };
 module.exports = textile;
 
 // options
 textile.defaults = {
   // single-line linebreaks are converted to <br> by default
-  'breaks': true,
+  breaks: true,
   // by default, don't map the elements of HTML output, with the line numbers of input text
-  'showOriginalLineNumber': false,
+  showOriginalLineNumber: false,
   // line number offset of the first char of input text, for showOriginalLineNumber option
-  'lineOffset': 0,
+  lineOffset: 0,
   // by default, don't set a special CSS class name to each HTML element mapped to an original line number
-  'cssClassOriginalLineNumber': '',
+  cssClassOriginalLineNumber: '',
   // functions to apply to each JsonML node before rendering to HTML
-  'hooks': [],
+  hooks: [],
   // function called where a JsonML node is rendered to HTML
-  'renderers': {}
+  renderers: {}
 };
-textile.setOptions = textile.setoptions = function ( opt ) {
-  merge( textile.defaults, opt );
+textile.setOptions = textile.setoptions = function (opt) {
+  merge(textile.defaults, opt);
   return this;
 };
 
 textile.parse = textile.convert = textile;
 textile.html_parser = parseHtml;
 
-textile.tokenize = function ( txt, opt ) {
+textile.tokenize = function (txt, opt) {
   // get a throw-away copy of options
-  opt = merge( merge({}, textile.defaults ), opt || {});
+  opt = merge(merge({}, textile.defaults), opt || {});
   // parse and return tree
-  return parseFlow( txt, opt, opt.lineOffset );
+  return parseFlow(txt, opt, opt.lineOffset);
 };
-textile.jsonml = function ( txt, opt ) {
+textile.jsonml = function (txt, opt) {
   // parse and return tree
-  return [ 'html' ].concat( textile.tokenize( txt, opt ) );
+  return [ 'html' ].concat(textile.tokenize(txt, opt));
 };
-textile.serialize = function ( jsonml, opt ) {
+textile.serialize = function (jsonml, opt) {
   // get a throw-away copy of options
-  opt = merge( merge({}, textile.defaults ), opt || {});
+  opt = merge(merge({}, textile.defaults), opt || {});
   // serialize
-  return jsonmlUtils.toHTML( jsonml, opt.renderers );
+  return jsonmlUtils.toHTML(jsonml, opt.renderers);
 };
 
 textile.jsonmlUtils = jsonmlUtils;

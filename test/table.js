@@ -1,13 +1,13 @@
 /* eslint-disable prefer-const, no-multi-str, quotes */
-const test = require( 'tape' );
-const textile = require( '../src' );
+const test = require('tape');
+const textile = require('../src');
 // table.yml
 
-test( 'table:1', function ( t ) {
+test('table:1', function (t) {
   let tx = "|a|b|c|\n\
 |1|2|3|\n\n\
 h3. A header after the table";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table>\n\
 \t<tr>\n\
 \t\t<td>a</td>\n\
@@ -20,15 +20,15 @@ h3. A header after the table";
 \t\t<td>3</td>\n\
 \t</tr>\n\
 </table>\n\
-<h3>A header after the table</h3>", tx );
+<h3>A header after the table</h3>", tx);
   t.end();
 });
 
 
-test( 'table:2', function ( t ) {
+test('table:2', function (t) {
   let tx = "|_. a|_. b|_. c|\n\
 |1|2|3|";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table>\n\
 \t<tr>\n\
 \t\t<th>a</th>\n\
@@ -40,15 +40,15 @@ test( 'table:2', function ( t ) {
 \t\t<td>2</td>\n\
 \t\t<td>3</td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
 
-test( 'table:3', function ( t ) {
+test('table:3', function (t) {
   let tx = "|This|is|a|simple|table|\n\
 |This|is|a|simple|row|";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table>\n\
 \t<tr>\n\
 \t\t<td>This</td>\n\
@@ -64,16 +64,16 @@ test( 'table:3', function ( t ) {
 \t\t<td>simple</td>\n\
 \t\t<td>row</td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
 
-test( 'table:4', function ( t ) {
+test('table:4', function (t) {
   let tx = "table{border:1px solid black}.\n\
 |This|is|a|row|\n\
 |This|is|a|row|";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table style=\"border:1px solid black\">\n\
 \t<tr>\n\
 \t\t<td>This</td>\n\
@@ -87,14 +87,14 @@ test( 'table:4', function ( t ) {
 \t\t<td>a</td>\n\
 \t\t<td>row</td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
 
-test( 'table:5', function ( t ) {
+test('table:5', function (t) {
   let tx = "{background:#ddd}. |This|is|a|row|";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table>\n\
 \t<tr style=\"background:#ddd\">\n\
 \t\t<td>This</td>\n\
@@ -102,15 +102,15 @@ test( 'table:5', function ( t ) {
 \t\t<td>a</td>\n\
 \t\t<td>row</td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
 
-test( 'table:6', function ( t ) {
+test('table:6', function (t) {
   let tx = "|a|b|c|\n\
 | |2|3|";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table>\n\
 \t<tr>\n\
 \t\t<td>a</td>\n\
@@ -122,12 +122,12 @@ test( 'table:6', function ( t ) {
 \t\t<td>2</td>\n\
 \t\t<td>3</td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
 
-test( 'table:7', function ( t ) {
+test('table:7', function (t) {
   let tx = "table{width: 200px; border:2px solid gray;}.\n\
 |_=. Alignment|\n\
 |=. centered|\n\
@@ -137,7 +137,7 @@ test( 'table:7', function ( t ) {
 |<(. almost left|\n\
 |>. right|\n\
 |<. left|";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table style=\"width:200px;border:2px solid gray\">\n\
 \t<tr>\n\
 \t\t<th style=\"text-align:center\">Alignment</th>\n\
@@ -163,18 +163,18 @@ test( 'table:7', function ( t ) {
 \t<tr>\n\
 \t\t<td style=\"text-align:left\">left</td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
 
-test( 'table:8', function ( t ) {
+test('table:8', function (t) {
   let tx = "|{background:#ddd}. Cell with gray background|Normal cell|\n\
 |\\2. Cell spanning 2 columns|\n\
 |/2. Cell spanning 2 rows|one|\n\
 |two|\n\
 |>. Right-aligned cell|<. Left-aligned cell|";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table>\n\
 \t<tr>\n\
 \t\t<td style=\"background:#ddd\">Cell with gray background</td>\n\
@@ -194,18 +194,18 @@ test( 'table:8', function ( t ) {
 \t\t<td style=\"text-align:right\">Right-aligned cell</td>\n\
 \t\t<td style=\"text-align:left\">Left-aligned cell</td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
 
-test( 'row spanning mid-row', function ( t ) {
+test('row spanning mid-row', function (t) {
   let tx = "|1|2|3|\n\
 |1|/3. 2|3|\n\
 |1|3|\n\
 |1|3|\n\
 |1|2|3|";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table>\n\
 \t<tr>\n\
 \t\t<td>1</td>\n\
@@ -230,12 +230,12 @@ test( 'row spanning mid-row', function ( t ) {
 \t\t<td>2</td>\n\
 \t\t<td>3</td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
 
-test( 'table:10', function ( t ) {
+test('table:10', function (t) {
   let tx = "{background:#ddd}. |S|Target|Complete|App|Milestone|\n\
 |!/i/g.gif!|11/29/04|11/29/04|011|XML spec complete (KH is on schedule)|\n\
 |!/i/g.gif!|11/22/04|11/22/04|070|Dialog pass 1 builds an index file|\n\
@@ -243,7 +243,7 @@ test( 'table:10', function ( t ) {
 |!/i/g.gif!|11/30/04|11/30/04|070|Feature complete. Passes end-to-end smoke test.|\n\
 |!/i/w.gif!|12/02/04| |011|Dialog pass 1 and 2 complete (98+%)|\n\
 |!/i/w.gif!|12/03/04| |081|Feature complete|";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table>\n\
 \t<tr style=\"background:#ddd\">\n\
 \t\t<td>S</td>\n\
@@ -294,16 +294,16 @@ test( 'table:10', function ( t ) {
 \t\t<td>081</td>\n\
 \t\t<td>Feature complete</td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
 
-test( 'combined table header and colspan', function ( t ) {
+test('combined table header and colspan', function (t) {
   let tx = "table(my_class).\n\
 |_\\2. a |_. b |_. c |\n\
 | 1 | 2 | 3 | 4 |";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table class=\"my_class\">\n\
 \t<tr>\n\
 \t\t<th colspan=\"2\">a </th>\n\
@@ -316,15 +316,15 @@ test( 'combined table header and colspan', function ( t ) {
 \t\t<td> 3 </td>\n\
 \t\t<td> 4 </td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
 
-test( 'two adjacent tables', function ( t ) {
+test('two adjacent tables', function (t) {
   let tx = "|a|b|c|\n\n\
 |1|2|3|";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table>\n\
 \t<tr>\n\
 \t\t<td>a</td>\n\
@@ -338,45 +338,45 @@ test( 'two adjacent tables', function ( t ) {
 \t\t<td>2</td>\n\
 \t\t<td>3</td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
 
-test( 'with cell attributes', function ( t ) {
+test('with cell attributes', function (t) {
   let tx = "|[en]. lang-ok|{color:red;}. style-ok|(myclass). class-ok|";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table>\n\
 \t<tr>\n\
 \t\t<td lang=\"en\">lang-ok</td>\n\
 \t\t<td style=\"color:red\">style-ok</td>\n\
 \t\t<td class=\"myclass\">class-ok</td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
 
-test( 'with improper cell attributes', function ( t ) {
+test('with improper cell attributes', function (t) {
   let tx = "|[en]lang-bad|{color:red;}style-bad|(myclass)class-bad|";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table>\n\
 \t<tr>\n\
 \t\t<td>[en]lang-bad</td>\n\
 \t\t<td>{color:red;}style-bad</td>\n\
 \t\t<td>(myclass)class-bad</td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
 
-test( 'with line breaks in the cell', function ( t ) {
+test('with line breaks in the cell', function (t) {
   let tx = "|a|b\n\
 b|\n\
 |c\n\
 c|d|";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table>\n\
 \t<tr>\n\
 \t\t<td>a</td>\n\
@@ -388,16 +388,16 @@ b</td>\n\
 c</td>\n\
 \t\t<td>d</td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
 
-test( 'with missing cells', function ( t ) {
+test('with missing cells', function (t) {
   let tx = "|a|b|\n\
 |a|\n\
 |a|b|";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table>\n\
 \t<tr>\n\
 \t\t<td>a</td>\n\
@@ -410,16 +410,16 @@ test( 'with missing cells', function ( t ) {
 \t\t<td>a</td>\n\
 \t\t<td>b</td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
 
-test( 'with empty cells', function ( t ) {
+test('with empty cells', function (t) {
   let tx = "||b|\n\
 |a||\n\
 |a| |";
-  t.is( textile.convert( tx ),
+  t.is(textile.convert(tx),
     "<table>\n\
 \t<tr>\n\
 \t\t<td></td>\n\
@@ -433,7 +433,7 @@ test( 'with empty cells', function ( t ) {
 \t\t<td>a</td>\n\
 \t\t<td> </td>\n\
 \t</tr>\n\
-</table>", tx );
+</table>", tx);
   t.end();
 });
 
