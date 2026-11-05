@@ -12,13 +12,19 @@ fn1. footnote 1
 
 fn2. footnote 2
 
-This text refernces a footnote[1]
+This text references a footnote[1]
 
 # numbered list item 1
 # numbered list item 2
 
 * bulleted list first item
 * bulleted list second item
+
+- term := definition
+- another term := its definition
+
+; term
+: definition (MediaWiki style)
 
 _emphasis_
 *strong*
@@ -33,13 +39,13 @@ p(class). paragraph with a classname
 
 p(#id). paragraph with an ID
 
-p{color:red}. paragrah with a CSS style
+p{color:red}. paragraph with a CSS style
 
 p[fr]. paragraphe en français
 
-p<. right aligned paragraph
+p<. left aligned paragraph
 
-p>. left aligned paragraph
+p>. right aligned paragraph
 
 p=. centered aligned paragraph
 

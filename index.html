@@ -1,44 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
-  <meta charset=utf-8>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Textile live web editor</title>
-
-  <link rel="stylesheet" type="text/css" media="screen" href="app.css" />
-
-  <script src="jquery.min.js"></script>
-  <script src="jquery.minitabs.js"></script>
-  <script src="textile.min.js"></script>
-  <script src="app.js"></script>
-
+  <link rel="stylesheet" href="app.css">
+  <script src="textile.js"></script>
 </head>
 <body>
 
-  <h1>Textile live web editor</h1>
+  <header class="site-header">
+    <h1>Textile live web editor</h1>
+    <a href="https://github.com/lucasfloripes/textile-js">textile-js on GitHub</a>
+  </header>
 
-  <div id="col_left" class="col">
-    <label for="tx_input">Textile input</label>
-    <span class="tools">
-      <button class="clear">Clear</button>
-    </span>
-    <textarea id="tx_input" cols="80" rows="20" class="panel"></textarea>
+  <div class="row">
+    <div id="col_left" class="col">
+      <div class="hd">
+        <label for="tx_input">Textile input</label>
+        <span class="tools">
+          <button class="clear">Clear</button>
+        </span>
+      </div>
+      <textarea id="tx_input" cols="80" rows="20" class="panel"></textarea>
+    </div>
+
+    <div id="col_right" class="col">
+      <ul class="nav tab hd">
+        <li class="current"><a href="#text_preview">Preview</a></li>
+        <li><a href="#html_output">HTML Output</a></li>
+        <li><a href="#syntax_guide">Syntax Guide</a></li>
+      </ul>
+      <div id="text_preview" class="panel"></div>
+      <textarea id="html_output" class="panel" readonly></textarea>
+      <textarea id="syntax_guide" class="panel" readonly></textarea>
+    </div>
   </div>
 
-  <div id="col_right" class="col">
-    <ul class="nav tab">
-      <li><a href="#text_preview">Preview</a></li>
-      <li><a href="#html_output">HTML Output</a></li>
-      <li><a href="#syntax_guide">Syntax Guide</a></li>
-    </ul>
-    <div id="text_preview" class="panel"></div>
-    <textarea id="html_output" class="panel" cols="80" rows="20" readonly="readonly"></textarea>
-    <textarea id="syntax_guide" class="panel" cols="80" rows="20" readonly="readonly"></textarea>
-  </div>
+  <footer id="foot">
+    Community-maintained fork of <a href="https://github.com/borgar/textile-js">textile-js</a> by Borgar Þorsteinsson.
+  </footer>
 
-  <a id="credit1" href="https://github.com/borgar/textile-js/">JS-Textile project home.</a>
-
-  <a id="credit2" href="http://softwaremaniacs.org/playground/showdown-highlight/">This utility is loosely based on the Showdown live editor.</a>
-
+  <script src="app.js"></script>
 </body>
 </html>
