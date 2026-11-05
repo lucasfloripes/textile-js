@@ -164,7 +164,7 @@ function parseFlow (src, options, lineOffset) {
         pba = pba[1];
       }
       pba = addLineNumber(pba, options, charPosToLine, 0, src.getSlot());
-      if ((m = /^\.(\.?)(?:\s|(?=:))/.exec(src))) {
+      if ((m = /^\.(\.?)(?:\s|(?=:)|$)/.exec(src))) {
         // FIXME: this whole copyAttr seems rather strange?
         // slurp rest of block
         const extended = !!m[1];
@@ -172,8 +172,17 @@ function parseFlow (src, options, lineOffset) {
         if (blockType === 'bc' || blockType === 'pre') {
           reBlockGlob = (extended ? reBlockExtendedPre : reBlockNormalPre);
         }
-        m = reBlockGlob.exec(src.advance(m[0]));
-        src.advance(m[0]);
+        // a signature followed by a blank line (or the end) is an empty block,
+        // it must not swallow the next paragraph (#9)
+        const empty = !extended && /^\.[^\S\n]*(?:\r?\n(?:\s*\n|$)+|$)/.exec(src);
+        if (empty) {
+          src.advance(empty[0]);
+          m = [ '', '' ];
+        }
+        else {
+          m = reBlockGlob.exec(src.advance(m[0]));
+          src.advance(m[0]);
+        }
         // bq | bc | notextile | pre | h# | fn# | p | ###
         if (blockType === 'bq') {
           let inner = m[1];
