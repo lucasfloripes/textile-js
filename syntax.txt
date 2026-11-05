@@ -60,3 +60,12 @@ p<>. justified text paragraph
 !imageurl!
 
 ABBR(Abbreviation)
+
+With "Redmine syntax" enabled:
+
+{{toc}}
+
+> quoted line
+>> nested quote
+
+http://www.redmine.org and someone@example.com become links

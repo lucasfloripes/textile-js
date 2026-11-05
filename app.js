@@ -27,6 +27,14 @@
   const text_preview = getElm('#text_preview');
   const html_output  = getElm('#html_output');
 
+  const redmine = getElm('#redmine');
+  try {
+    redmine.checked = localStorage.getItem('textile-dingus-redmine') === '1';
+  }
+  catch {
+    // storage may be unavailable
+  }
+
   let last = null;
   function convert_text (newval) {
     // make sure we're getting a string here because we want to
@@ -40,7 +48,8 @@
     last = text;
 
     const startTime = Date.now();
-    const html = textile.convert(text);
+    const options = redmine.checked && textile.presets ? textile.presets.redmine : {};
+    const html = textile.convert(text, options);
     const endTime = Date.now();
     processing_time = endTime - startTime;
 
@@ -99,6 +108,17 @@
     if (!input.value) {
       convert_text(d);
     }
+  });
+
+  attach('#redmine', 'change', () => {
+    try {
+      localStorage.setItem('textile-dingus-redmine', redmine.checked ? '1' : '0');
+    }
+    catch {
+      // storage may be unavailable
+    }
+    last = null; // force a re-render
+    convert_text();
   });
 
   attach('button.clear', 'click', () => {

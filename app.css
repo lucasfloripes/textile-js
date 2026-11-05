@@ -141,7 +141,28 @@ label {
 }
 
 .tools {
+  display: flex;
   padding-bottom: .3rem;
+  align-items: center;
+  gap: .75rem;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.toggle input {
+  margin: 0;
+  accent-color: var(--accent);
 }
 
 button {
