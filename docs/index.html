@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset=utf-8>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Textile live web editor</title>
-  <link rel="stylesheet" type="text/css" media="screen" href="app.css" />
+  <link rel="stylesheet" href="app.css">
   <script src="https://unpkg.com/textile-js/lib/textile.js"></script>
 </head>
 <body>
 
-  <h1>Textile live web editor</h1>
+  <header class="site-header">
+    <h1>Textile live web editor</h1>
+    <a href="https://github.com/lucasfloripes/textile-js">textile-js on GitHub</a>
+  </header>
 
   <div class="row">
     <div id="col_left" class="col">
@@ -33,9 +37,9 @@
     </div>
   </div>
 
-  <div id="foot">
-    <a id="credit1" href="https://github.com/borgar/textile-js/">JS-Textile project home.</a>
-  </div>
+  <footer id="foot">
+    Community-maintained fork of <a href="https://github.com/borgar/textile-js">textile-js</a> by Borgar Þorsteinsson.
+  </footer>
 
   <script src="app.js"></script>
 </body>
