@@ -2,16 +2,14 @@
   "name": "textile-js",
   "description": "A full-featured JavaScript Textile parser",
   "author": "Borgar Þorsteinsson <borgar@borgar.net>",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack --mode development --watch",
     "dev": "nodemon -w test -w src -x 'tape 'test/*.js'|tap-min'",
     "test": "tape test/*js | tap-min",
-    "lint": "eslint src/*js test/*js",
-    "coverage": "nyc --reporter html --reporter text tape test/*js",
-    "pub": "node scripts/publish.js",
-    "dingus": "node scripts/updatedingus.js"
+    "lint": "eslint src/*js src/textile/*js test/*js",
+    "coverage": "nyc --reporter html --reporter text tape test/*js"
   },
   "main": "./lib/textile.js",
   "bin": "./bin/textile",

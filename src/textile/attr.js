@@ -23,20 +23,20 @@ const pbaVAlignLookup = {
   '-': 'middle'
 };
 
-function copyAttr (s, blacklist) {
-  if (!s) { return undefined; }
+function copyAttr ( s, blacklist ) {
+  if ( !s ) { return undefined; }
   const d = {};
-  for (const k in s) {
-    if (k in s && (!blacklist || !(k in blacklist))) {
-      d[k] = s[k];
+  for ( const k in s ) {
+    if ( k in s && ( !blacklist || !( k in blacklist ) ) ) {
+      d[ k ] = s[ k ];
     }
   }
   return d;
 }
 
-function testBlock (name) {
+function testBlock ( name ) {
   // "in" test would be better but what about fn#.?
-  return /^(?:table|t[dh]|t(?:foot|head|body)|b[qc]|div|notextile|pre|h[1-6]|fn\\d+|p|###)$/.test(name);
+  return /^(?:table|t[dh]|t(?:foot|head|body)|b[qc]|div|notextile|pre|h[1-6]|fn\\d+|p|###)$/.test( name );
 }
 
 /*
@@ -55,130 +55,148 @@ function testBlock (name) {
   only accepts valid BCP 47 language tags, but who knows what atrocities are being preformed
   out there in the real world. So this attempts to emulate the other libraries.
 */
-function parseAttr (input, element, endToken) {
-  input = String(input);
-  if (!input || element === 'notextile') {
+function parseAttr ( input, element, endToken ) {
+  input = String( input );
+  if ( !input || element === 'notextile' ) {
     return undefined;
   }
 
   let m;
   const st = {};
-  const o = { style: st };
+  const o = { 'style': st };
   let remaining = input;
 
-  const isBlock = testBlock(element);
+  const isBlock = testBlock( element );
   const isImg = element === 'img';
   const isList = element === 'li';
   const isPhrase = !isBlock && !isImg && element !== 'a';
-  const reAlign = (isImg) ? reAlignImg : reAlignBlock;
+  const reAlign = ( isImg ) ? reAlignImg : reAlignBlock;
 
   do {
-    if ((m = reStyles.exec(remaining))) {
-      m[1].split(';').forEach(function (p) {
-        const d = p.match(reCSS);
-        if (d) { st[d[1]] = d[2]; }
+    if ( ( m = reStyles.exec( remaining ) ) ) {
+      m[1].split( ';' ).forEach( function ( p ) {
+        const d = p.match( reCSS );
+        if ( d ) { st[ d[1] ] = d[2]; }
       });
-      remaining = remaining.slice(m[0].length);
+      remaining = remaining.slice( m[0].length );
       continue;
     }
 
-    if ((m = reLang.exec(remaining))) {
-      const rm = remaining.slice(m[0].length);
-      if ((!rm && isPhrase) ||
-           (endToken && endToken === rm.slice(0, endToken.length))) {
+    if ( ( m = reLang.exec( remaining ) ) ) {
+      const rm = remaining.slice( m[0].length );
+      if ( ( !rm && isPhrase ) ||
+           ( endToken && endToken === rm.slice( 0, endToken.length ) ) ) {
         m = null;
       }
       else {
-        o.lang = m[1];
-        remaining = remaining.slice(m[0].length);
+        o['lang'] = m[1];
+        remaining = remaining.slice( m[0].length );
       }
       continue;
     }
 
-    if ((m = reClassid.exec(remaining))) {
-      const rm = remaining.slice(m[0].length);
+    if ( ( m = reClassid.exec( remaining ) ) ) {
+      const rm = remaining.slice( m[0].length );
       if (
-        (!rm && isPhrase) ||
-          (endToken && (rm[0] === ' ' || endToken === rm.slice(0, endToken.length)))
+        ( !rm && isPhrase ) ||
+          ( endToken && ( rm[0] === ' ' || endToken === rm.slice( 0, endToken.length ) ) )
       ) {
         m = null;
       }
       else {
-        const bits = m[1].split('#');
-        if (bits[0]) { o.class = bits[0]; }
-        if (bits[1]) { o.id = bits[1]; }
+        const bits = m[1].split( '#' );
+        if ( bits[0] ) { o.class = bits[0]; }
+        if ( bits[1] ) { o.id = bits[1]; }
         remaining = rm;
       }
       continue;
     }
 
-    if (isBlock || isList) {
-      if ((m = rePaddingL.exec(remaining))) {
-        st['padding-left'] = `${m[1].length}em`;
-        remaining = remaining.slice(m[0].length);
+    if ( isBlock || isList ) {
+      if ( ( m = rePaddingL.exec( remaining ) ) ) {
+        st[ 'padding-left' ] = `${ m[1].length }em`;
+        remaining = remaining.slice( m[0].length );
         continue;
       }
-      if ((m = rePaddingR.exec(remaining))) {
-        st['padding-right'] = `${m[1].length}em`;
-        remaining = remaining.slice(m[0].length);
+      if ( ( m = rePaddingR.exec( remaining ) ) ) {
+        st[ 'padding-right' ] = `${ m[1].length }em`;
+        remaining = remaining.slice( m[0].length );
         continue;
       }
     }
 
     // only for blocks:
-    if (isImg || isBlock || isList) {
-      if ((m = reAlign.exec(remaining))) {
-        const align = pbaAlignLookup[m[1]];
-        if (isImg) {
-          o.align = align;
+    if ( isImg || isBlock || isList ) {
+      if ( ( m = reAlign.exec( remaining ) ) ) {
+        const align = pbaAlignLookup[ m[1] ];
+        if ( isImg ) {
+          o[ 'align' ] = align;
         }
         else {
-          st['text-align'] = align;
+          st[ 'text-align' ] = align;
         }
-        remaining = remaining.slice(m[0].length);
+        remaining = remaining.slice( m[0].length );
         continue;
       }
     }
 
     // only for table cells
-    if (element === 'td' || element === 'tr') {
-      if ((m = reVAlign.exec(remaining))) {
-        st['vertical-align'] = pbaVAlignLookup[m[1]];
-        remaining = remaining.slice(m[0].length);
+    if ( element === 'td' || element === 'tr' ) {
+      if ( ( m = reVAlign.exec( remaining ) ) ) {
+        st[ 'vertical-align' ] = pbaVAlignLookup[ m[1] ];
+        remaining = remaining.slice( m[0].length );
         continue;
       }
     }
-    if (element === 'td') {
-      if ((m = reColSpan.exec(remaining))) {
-        o.colspan = m[1];
-        remaining = remaining.slice(m[0].length);
+    if ( element === 'td' ) {
+      if ( ( m = reColSpan.exec( remaining ) ) ) {
+        o[ 'colspan' ] = m[1];
+        remaining = remaining.slice( m[0].length );
         continue;
       }
-      if ((m = reRowSpan.exec(remaining))) {
-        o.rowspan = m[1];
-        remaining = remaining.slice(m[0].length);
+      if ( ( m = reRowSpan.exec( remaining ) ) ) {
+        o[ 'rowspan' ] = m[1];
+        remaining = remaining.slice( m[0].length );
         continue;
       }
     }
   }
-  while (m);
+  while ( m );
 
   // collapse styles
   const s = [];
-  for (const v in st) {
-    s.push(`${v}:${st[v]}`);
+  for ( const v in st ) {
+    s.push( `${ v }:${ st[v] }` );
   }
-  if (s.length) {
-    o.style = s.join(';');
+  if ( s.length ) {
+    o.style = s.join( ';' );
   }
   else {
     delete o.style;
   }
 
-  return (remaining === input) ? undefined : [ input.length - remaining.length, o ];
+  return ( remaining === input ) ? undefined : [ input.length - remaining.length, o ];
+}
+
+function addLineNumber ( jsonmlEntryAttr, options, charPosToLine, charOffset, charPos, charPosEnd ) {
+  if ( options.showOriginalLineNumber && charPosToLine ) {
+    charOffset = charOffset || 0;
+    if ( !jsonmlEntryAttr ) {
+      jsonmlEntryAttr = {};
+    }
+    jsonmlEntryAttr['data-line'] = charPosToLine[ charOffset + charPos ];
+    if ( typeof charPosEnd !== 'undefined' ) {
+      jsonmlEntryAttr['data-line-end'] = charPosToLine[ charOffset + charPosEnd ];
+    }
+    if ( options.cssClassOriginalLineNumber ) {
+      jsonmlEntryAttr['class'] = ( jsonmlEntryAttr['class'] ? jsonmlEntryAttr['class'] + ' ' : '' ) + options.cssClassOriginalLineNumber;
+    }
+  }
+  return jsonmlEntryAttr;
 }
 
 module.exports = {
   copyAttr: copyAttr,
-  parseAttr: parseAttr
+  parseAttr: parseAttr,
+  addLineNumber: addLineNumber
 };

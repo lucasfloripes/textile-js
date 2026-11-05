@@ -4,20 +4,60 @@ p(note). *This is a community-maintained fork* of "borgar/textile-js":https://gi
 
 Attempt at an implementation of fully featured Textile parser in JavaScript that runs reasonably fast and mostly avoids outputting broken HTML.
 
-Give it a go in "a live textile web editor":http://borgar.github.io/textile-js/.
+This fork also integrates the work from "GehDoc/textile-js":https://github.com/GehDoc/textile-js (original PRs "#51":https://github.com/borgar/textile-js/pull/51 and "#64":https://github.com/borgar/textile-js/pull/64):
+* map each HTML output tag to the corresponding source code line (@showOriginalLineNumber@);
+* fix for bug "borgar/textile-js#52":https://github.com/borgar/textile-js/issues/52;
+* configurable hooks to modify JsonML nodes before and when rendering to HTML.
+
+Give it a go in "a live textile web editor":https://lucasfloripes.github.io/textile-js/.
 
 
 h2. Install
 
-bc. $ npm install textile-js
+bc. $ npm install github:lucasfloripes/textile-js
 
 
-h2. Options
+h2. The @textile@ function
 
 The basic interface mimics "marked":https://github.com/chjj/marked, the popular markdown parser. So if you use that in your project then you can support Textile as well with minimal effort.
 
-Currently, the only supported option is @breaks@ which can be used to enable/disable the default behavior of line-breaking single newlines within blocks.
+Currently, the only option imported from marked is @breaks@ which can be used to enable/disable the default behavior of line-breaking single newlines within blocks.
 
+h3. Syntax
+
+bc. textile( textileString [, options] )
+
+|*Argument*|*Type*|*Notes*|
+|textileString|@string@|String of textile source to be compiled.|
+|"options":#options|@object@|Hash of options. Can also use @textile.setOptions@.|
+
+h3. <a name="options" />Options
+
+|*Member*|*Type*|*Default*|*Notes*|
+|break|@boolean@|@true@|Convert single-line linebreaks to @<br>@.|
+|cssClassOriginalLineNumber|@string@|@''@|Add this CSS class name, to each elements of HTML output, mapped to a the line numbers of input text.
+Works only when @showOriginalLineNumber@ option is enabled.|
+|hooks|<pre><code>[
+  function(
+    jsonml :any[],
+    param :any OR undefined,
+    Nodelevel :number
+  ) :any[],
+  param? :any
+]</code></pre>|@[]@|Array of function (and optional initial parameter), applied in the order of the array to each JsonML node before rendering to HTML.
+The function receives a JsonML node (JsonML sub-tree), and returns it with modifications.|
+|lineOffset|@integer@|@0@|Line number offset of the first char in input text, for @showOriginalLineNumber@ option.|
+|renderers|<pre><code>[
+    content: function(
+        tag: string,
+        attributes: object OR undefined,
+        content: string
+    ) :string
+]</code></pre>|@[]@|Rendering functions, called with the tagName, the attributes object, and the content string :
+@content@ is returned to replace the content string of a tag.|
+|showOriginalLineNumber|@boolean@|@false@|Maps the elements of HTML output, with the line numbers of input text.
+An HTML attribute @data-line@ is added to the HTML block elements = the line number in input text, of the first char of text inside that HTML block.
+For tags inlined inside textile source, a HTML attribute @data-line-end@ is added too = the line number in input text, of the last char of the closing tag of that HTML block.|
 
 h2. Usage
 
