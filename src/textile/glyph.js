@@ -7,7 +7,7 @@ const reArrow = /([^-]|^)->/;
 const reClosingDQuote = re.compile(/([^\s[(])"(?=$|\s|[:punct:])/g);
 const reClosingSQuote = re.compile(/([^\s[(])'(?=$|\s|[:punct:])/g);
 const reCopyright = /(\b ?|\s|^)(?:\(C\)|\[C\])/gi;
-const reDimsign = /([\d.,]+['"]? ?)x( ?)(?=[\d.,]['"]?)/g;
+const reDimsign = /((?:\d|[.,]\d)[\d.,]*['"]? ?)x( ?)(?=[.,]?\d)/g;
 const reDoublePrime = re.compile(/(\d*[.,]?\d+)"(?=\s|$|[:punct:])/g);
 const reEllipsis = /([^.]?)\.{3}/g;
 const reEmdash = /(^|[\s\w])--([\s\w]|$)/g;
