@@ -202,6 +202,100 @@ button:hover {
   border-radius: var(--radius);
 }
 
+.textile-toolbar + #tx_input {
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+
+/* formatting toolbar */
+
+.textile-toolbar {
+  position: relative;
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  padding: 5px 6px;
+  border: 1px solid var(--border);
+  border-bottom: 0;
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: var(--surface-muted);
+}
+
+.textile-toolbar-group {
+  display: inline-flex;
+  gap: 1px;
+}
+
+.textile-toolbar-group + .textile-toolbar-group {
+  padding-left: 6px;
+  border-left: 1px solid var(--border);
+}
+
+.textile-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 5px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text);
+  font: 600 14px/1 var(--font-sans);
+}
+
+.textile-toolbar-btn:hover {
+  border-color: var(--border-strong);
+  background: var(--surface);
+  color: var(--accent);
+}
+
+.textile-toolbar-btn:active {
+  background: var(--accent-soft);
+}
+
+.textile-toolbar-btn sub {
+  font-size: 9px;
+  line-height: 0;
+}
+
+.textile-toolbar-btn .tt-pre {
+  font: 600 11px/1 var(--font-mono);
+}
+
+.textile-toolbar-menu {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  max-height: 260px;
+  min-width: 140px;
+  padding: 4px;
+  overflow-y: auto;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .15);
+}
+
+.textile-toolbar-menu button {
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  font: 13px/1.4 var(--font-mono);
+  text-align: left;
+}
+
+.textile-toolbar-menu button:hover,
+.textile-toolbar-menu button:focus {
+  outline: none;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
 textarea {
   resize: none;
   font: 13px/1.55 var(--font-mono);

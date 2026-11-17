@@ -85,6 +85,20 @@ bc. var jsonml = textile.parse( text );
 console.log( jsonml );
 
 
+h2. Formatting toolbar
+
+The "live editor":https://lucasfloripes.github.io/textile-js/ includes a Redmine style formatting toolbar for any @<textarea>@ (bold, italic, underline, strike-through, inline code, headings, lists, quotes, tables, @pre@, highlighted code, links, images). It is a standalone script with no dependencies, "docs/toolbar.js":docs/toolbar.js, styled by the @.textile-toolbar@ rules in "docs/app.css":docs/app.css:
+
+bc. <script src="toolbar.js"></script>
+<script>
+  TextileToolbar.attach(document.querySelector('textarea'), {
+    quoteLines: () => true,          // "> " quotes (Redmine) instead of "bq. "
+    onHelp: () => showSyntaxHelp()   // optional help button
+  });
+</script>
+
+Buttons toggle their markup off when it is already applied, keep the browser's undo history and support Ctrl/⌘+B, I, U, E and K.
+
 h2. CLI
 
 bc. $ textile -o hello.html
